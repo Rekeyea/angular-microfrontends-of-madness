@@ -1,8 +1,1546 @@
 {
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
-  "version": 2,
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "micro",
+  "affected": {
+    "defaultBase": "main"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "YTk0NGU5NWYtYjY3Yy00NjgzLWFmY2EtZWQxNjVjYmViYTE2fHJlYWQtd3JpdGU="
+      }
+    }
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  },
   "projects": {
-    "micro": "apps/micro",
-    "micro-e2e": "apps/micro-e2e"
-  }
+    "charts": {
+      "root": "apps/charts",
+      "projectType": "application",
+      "sourceRoot": "apps/charts/src",
+      "prefix": "micro",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/charts",
+            "index": "apps/charts/src/index.html",
+            "main": "apps/charts/src/main.ts",
+            "polyfills": "apps/charts/src/polyfills.ts",
+            "tsConfig": "apps/charts/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/charts/src/favicon.ico", "apps/charts/src/assets"],
+            "styles": ["apps/charts/src/styles.scss"],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "apps/charts/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/charts/src/environments/environment.ts",
+                  "with": "apps/charts/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "apps/charts/webpack.prod.config.js"
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production",
+          "dependsOn": ["^build"]
+        },
+        "serve": {
+          "builder": "@nrwl/angular:webpack-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "charts:build:production"
+            },
+            "development": {
+              "browserTarget": "charts:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4202,
+            "publicHost": "http://localhost:4202"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "charts:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/charts/**/*.ts", "apps/charts/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/charts"],
+          "options": {
+            "jestConfig": "apps/charts/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "serve-static": {
+          "builder": "@nrwl/angular:file-server",
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "charts:build",
+            "port": 4202
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "charts:build:development"
+            },
+            "production": {
+              "buildTarget": "charts:build:production"
+            }
+          }
+        }
+      },
+      "tags": [],
+      "files": [
+        {
+          "file": "apps/charts/.browserslistrc",
+          "hash": "4f9ac26980c156a3d525267010d5f78144b43519"
+        },
+        {
+          "file": "apps/charts/.eslintrc.json",
+          "hash": "fe8f09d8a6fb76bef3600f1bc2610bed4f4f09cc"
+        },
+        {
+          "file": "apps/charts/jest.config.ts",
+          "hash": "deed2a38a92cf5a6f0d92bab2723d2946d6019a3"
+        },
+        {
+          "file": "apps/charts/module-federation.config.js",
+          "hash": "4b32f8a1fc1149c8cda1fe22fbc76ee57800c6b2"
+        },
+        {
+          "file": "apps/charts/project.json",
+          "hash": "818f4fdb93905eaeced83788c575a3333fbaac98"
+        },
+        {
+          "file": "apps/charts/src/app/app.component.ts",
+          "hash": "3c91968dd06201bfb9ff19826c084ae14110596e",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/charts/src/app/app.module.ts",
+          "hash": "4e132d3c7555d19826826f6751ad8b4d4dd0c8ba",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/charts/src/app/remote-entry/entry.component.ts",
+          "hash": "324aee1ca5cbf9def4cf0b68cc919744b6354576",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/charts/src/app/remote-entry/entry.module.ts",
+          "hash": "2792670bb3ebe7d98af9a312b6444654fc4e7005",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/charts/src/app/remote-entry/nx-welcome.component.ts",
+          "hash": "926ba20aa532f6a1447f2bd3073474c7a715a9ef",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/charts/src/assets/.gitkeep",
+          "hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+        },
+        {
+          "file": "apps/charts/src/bootstrap.ts",
+          "hash": "d9a2e7e4a582e265db779363bd8b2492c43c141b",
+          "deps": ["npm:@angular/core", "npm:@angular/platform-browser-dynamic"]
+        },
+        {
+          "file": "apps/charts/src/environments/environment.prod.ts",
+          "hash": "c9669790be176ac85a5d8c11278875c2f52dc507"
+        },
+        {
+          "file": "apps/charts/src/environments/environment.ts",
+          "hash": "66998ae9a7c27359bc473c6d2aa0029dd1f4b700"
+        },
+        {
+          "file": "apps/charts/src/favicon.ico",
+          "hash": "317ebcb2336e0833a22dddf0ab287849f26fda57"
+        },
+        {
+          "file": "apps/charts/src/index.html",
+          "hash": "fc7c39dc1e3f3c38786fbbaf10cbfce8764fd71c"
+        },
+        {
+          "file": "apps/charts/src/main.ts",
+          "hash": "5070220eacedd52527de9f3a46a9c427e32d0c30"
+        },
+        {
+          "file": "apps/charts/src/polyfills.ts",
+          "hash": "e4555ed11fa2f217b8e4c744d564da4f7388b4c4",
+          "deps": ["npm:zone.js"]
+        },
+        {
+          "file": "apps/charts/src/styles.scss",
+          "hash": "90d4ee0072ce3fc41812f8af910219f9eea3c3de"
+        },
+        {
+          "file": "apps/charts/src/test-setup.ts",
+          "hash": "1100b3e8a6ed08f4b5c27a96471846d57023c320",
+          "deps": ["npm:jest-preset-angular"]
+        },
+        {
+          "file": "apps/charts/tsconfig.app.json",
+          "hash": "1679e9d4779366650e8edcc9c10222969acc1349"
+        },
+        {
+          "file": "apps/charts/tsconfig.editor.json",
+          "hash": "20c4afdbf437457984afcb236d4b5e588aec858a"
+        },
+        {
+          "file": "apps/charts/tsconfig.json",
+          "hash": "c756d84676bd8d116ad9dc12a173b10c44b4955f"
+        },
+        {
+          "file": "apps/charts/tsconfig.spec.json",
+          "hash": "c5db02778f96a2a200d787c0a7b376fe0d6c36f7"
+        },
+        {
+          "file": "apps/charts/webpack.config.js",
+          "hash": "79dea22421c6d7dea9dbdc22146ef006c98d7f41",
+          "deps": ["npm:@nrwl/angular"]
+        },
+        {
+          "file": "apps/charts/webpack.prod.config.js",
+          "hash": "15c314d82cf501c4a3552ec71aca26ae878960de",
+          "deps": ["npm:@nrwl/angular"]
+        }
+      ]
+    },
+    "charts-e2e": {
+      "root": "apps/charts-e2e",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "sourceRoot": "apps/charts-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/charts-e2e/cypress.config.ts",
+            "devServerTarget": "charts:serve:development",
+            "testingType": "e2e"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "charts:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/charts-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["charts"],
+      "files": [
+        {
+          "file": "apps/charts-e2e/.eslintrc.json",
+          "hash": "696cb8b12127425419f6d2809c5f15a5963d86de"
+        },
+        {
+          "file": "apps/charts-e2e/cypress.config.ts",
+          "hash": "22f7c84eb637d4f23447fcb59dee130dd25b2de0",
+          "deps": ["npm:cypress", "npm:@nrwl/cypress"]
+        },
+        {
+          "file": "apps/charts-e2e/project.json",
+          "hash": "2b39ae37ee47a90ca62dc023cb24e0c605bcfc6f"
+        },
+        {
+          "file": "apps/charts-e2e/src/e2e/app.cy.ts",
+          "hash": "4112e19281370da58d188b669e6b55a39145e49a"
+        },
+        {
+          "file": "apps/charts-e2e/src/fixtures/example.json",
+          "hash": "294cbed6ce9e0b948b787452e8676aee486cb3be"
+        },
+        {
+          "file": "apps/charts-e2e/src/support/app.po.ts",
+          "hash": "32934246969c2ecb827ac05677785933a707a54d"
+        },
+        {
+          "file": "apps/charts-e2e/src/support/commands.ts",
+          "hash": "310f1fa0e043ffebbbcf575c5a4d17f13a6b14d6"
+        },
+        {
+          "file": "apps/charts-e2e/src/support/e2e.ts",
+          "hash": "3d469a6b6cf31eb66117d73e278bcf74f398f1db"
+        },
+        {
+          "file": "apps/charts-e2e/src/support/index.ts",
+          "hash": "b74801c41388fe82f4076612bf575c0d2b3e132e"
+        },
+        {
+          "file": "apps/charts-e2e/tsconfig.json",
+          "hash": "9e27f75c6fadf5f6175f48ca953d551089aef787"
+        }
+      ]
+    },
+    "config": {
+      "root": "apps/config",
+      "projectType": "application",
+      "sourceRoot": "apps/config/src",
+      "prefix": "micro",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/config",
+            "index": "apps/config/src/index.html",
+            "main": "apps/config/src/main.ts",
+            "polyfills": "apps/config/src/polyfills.ts",
+            "tsConfig": "apps/config/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/config/src/favicon.ico", "apps/config/src/assets"],
+            "styles": ["apps/config/src/styles.scss"],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "apps/config/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/config/src/environments/environment.ts",
+                  "with": "apps/config/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "apps/config/webpack.prod.config.js"
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production",
+          "dependsOn": ["^build"]
+        },
+        "serve": {
+          "builder": "@nrwl/angular:webpack-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "config:build:production"
+            },
+            "development": {
+              "browserTarget": "config:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4203,
+            "publicHost": "http://localhost:4203"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "config:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/config/**/*.ts", "apps/config/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/config"],
+          "options": {
+            "jestConfig": "apps/config/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "serve-static": {
+          "builder": "@nrwl/angular:file-server",
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "config:build",
+            "port": 4203
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "config:build:development"
+            },
+            "production": {
+              "buildTarget": "config:build:production"
+            }
+          }
+        }
+      },
+      "tags": [],
+      "files": [
+        {
+          "file": "apps/config/.browserslistrc",
+          "hash": "4f9ac26980c156a3d525267010d5f78144b43519"
+        },
+        {
+          "file": "apps/config/.eslintrc.json",
+          "hash": "fe8f09d8a6fb76bef3600f1bc2610bed4f4f09cc"
+        },
+        {
+          "file": "apps/config/jest.config.ts",
+          "hash": "5160d28b268b5c9c81a818eb451ddcba631572d1"
+        },
+        {
+          "file": "apps/config/module-federation.config.js",
+          "hash": "4206809c36452563884643ee4f8b12d2715d885a"
+        },
+        {
+          "file": "apps/config/project.json",
+          "hash": "1aafeddc47a15e8a99c81df7a28b35a812942ad8"
+        },
+        {
+          "file": "apps/config/src/app/app.component.ts",
+          "hash": "3c91968dd06201bfb9ff19826c084ae14110596e",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/config/src/app/app.module.ts",
+          "hash": "4e132d3c7555d19826826f6751ad8b4d4dd0c8ba",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/config/src/app/remote-entry/entry.component.ts",
+          "hash": "7d2c6159ad745d3c8c46526760b891140eff5a23",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/config/src/app/remote-entry/entry.module.ts",
+          "hash": "2792670bb3ebe7d98af9a312b6444654fc4e7005",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/config/src/app/remote-entry/nx-welcome.component.ts",
+          "hash": "82266e6b60069edd1ca55ab2f55c7ddc25850749",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/config/src/assets/.gitkeep",
+          "hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+        },
+        {
+          "file": "apps/config/src/bootstrap.ts",
+          "hash": "d9a2e7e4a582e265db779363bd8b2492c43c141b",
+          "deps": ["npm:@angular/core", "npm:@angular/platform-browser-dynamic"]
+        },
+        {
+          "file": "apps/config/src/environments/environment.prod.ts",
+          "hash": "c9669790be176ac85a5d8c11278875c2f52dc507"
+        },
+        {
+          "file": "apps/config/src/environments/environment.ts",
+          "hash": "66998ae9a7c27359bc473c6d2aa0029dd1f4b700"
+        },
+        {
+          "file": "apps/config/src/favicon.ico",
+          "hash": "317ebcb2336e0833a22dddf0ab287849f26fda57"
+        },
+        {
+          "file": "apps/config/src/index.html",
+          "hash": "0e191f7895e864edc35e6480012bc0f91a8f806b"
+        },
+        {
+          "file": "apps/config/src/main.ts",
+          "hash": "5070220eacedd52527de9f3a46a9c427e32d0c30"
+        },
+        {
+          "file": "apps/config/src/polyfills.ts",
+          "hash": "e4555ed11fa2f217b8e4c744d564da4f7388b4c4",
+          "deps": ["npm:zone.js"]
+        },
+        {
+          "file": "apps/config/src/styles.scss",
+          "hash": "90d4ee0072ce3fc41812f8af910219f9eea3c3de"
+        },
+        {
+          "file": "apps/config/src/test-setup.ts",
+          "hash": "1100b3e8a6ed08f4b5c27a96471846d57023c320",
+          "deps": ["npm:jest-preset-angular"]
+        },
+        {
+          "file": "apps/config/tsconfig.app.json",
+          "hash": "1679e9d4779366650e8edcc9c10222969acc1349"
+        },
+        {
+          "file": "apps/config/tsconfig.editor.json",
+          "hash": "20c4afdbf437457984afcb236d4b5e588aec858a"
+        },
+        {
+          "file": "apps/config/tsconfig.json",
+          "hash": "c756d84676bd8d116ad9dc12a173b10c44b4955f"
+        },
+        {
+          "file": "apps/config/tsconfig.spec.json",
+          "hash": "c5db02778f96a2a200d787c0a7b376fe0d6c36f7"
+        },
+        {
+          "file": "apps/config/webpack.config.js",
+          "hash": "79dea22421c6d7dea9dbdc22146ef006c98d7f41",
+          "deps": ["npm:@nrwl/angular"]
+        },
+        {
+          "file": "apps/config/webpack.prod.config.js",
+          "hash": "15c314d82cf501c4a3552ec71aca26ae878960de",
+          "deps": ["npm:@nrwl/angular"]
+        }
+      ]
+    },
+    "config-e2e": {
+      "root": "apps/config-e2e",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "sourceRoot": "apps/config-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/config-e2e/cypress.config.ts",
+            "devServerTarget": "config:serve:development",
+            "testingType": "e2e"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "config:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/config-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["config"],
+      "files": [
+        {
+          "file": "apps/config-e2e/.eslintrc.json",
+          "hash": "696cb8b12127425419f6d2809c5f15a5963d86de"
+        },
+        {
+          "file": "apps/config-e2e/cypress.config.ts",
+          "hash": "22f7c84eb637d4f23447fcb59dee130dd25b2de0",
+          "deps": ["npm:cypress", "npm:@nrwl/cypress"]
+        },
+        {
+          "file": "apps/config-e2e/project.json",
+          "hash": "1d629956aaa363efcdd5cb1dcd9a54c4fb59aa54"
+        },
+        {
+          "file": "apps/config-e2e/src/e2e/app.cy.ts",
+          "hash": "ad685d064a34496b2a8bb8fff3d7589288f40e39"
+        },
+        {
+          "file": "apps/config-e2e/src/fixtures/example.json",
+          "hash": "294cbed6ce9e0b948b787452e8676aee486cb3be"
+        },
+        {
+          "file": "apps/config-e2e/src/support/app.po.ts",
+          "hash": "32934246969c2ecb827ac05677785933a707a54d"
+        },
+        {
+          "file": "apps/config-e2e/src/support/commands.ts",
+          "hash": "310f1fa0e043ffebbbcf575c5a4d17f13a6b14d6"
+        },
+        {
+          "file": "apps/config-e2e/src/support/e2e.ts",
+          "hash": "3d469a6b6cf31eb66117d73e278bcf74f398f1db"
+        },
+        {
+          "file": "apps/config-e2e/src/support/index.ts",
+          "hash": "b74801c41388fe82f4076612bf575c0d2b3e132e"
+        },
+        {
+          "file": "apps/config-e2e/tsconfig.json",
+          "hash": "9e27f75c6fadf5f6175f48ca953d551089aef787"
+        }
+      ]
+    },
+    "dashboard": {
+      "root": "apps/dashboard",
+      "projectType": "application",
+      "sourceRoot": "apps/dashboard/src",
+      "prefix": "micro",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/dashboard",
+            "index": "apps/dashboard/src/index.html",
+            "main": "apps/dashboard/src/main.ts",
+            "polyfills": "apps/dashboard/src/polyfills.ts",
+            "tsConfig": "apps/dashboard/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/dashboard/src/favicon.ico",
+              "apps/dashboard/src/assets"
+            ],
+            "styles": ["apps/dashboard/src/styles.scss"],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "apps/dashboard/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/dashboard/src/environments/environment.ts",
+                  "with": "apps/dashboard/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "apps/dashboard/webpack.prod.config.js"
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production",
+          "dependsOn": ["^build"]
+        },
+        "serve": {
+          "builder": "@nrwl/angular:webpack-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "dashboard:build:production"
+            },
+            "development": {
+              "browserTarget": "dashboard:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4201,
+            "publicHost": "http://localhost:4201"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "dashboard:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/dashboard/**/*.ts",
+              "apps/dashboard/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/dashboard"],
+          "options": {
+            "jestConfig": "apps/dashboard/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "serve-static": {
+          "builder": "@nrwl/angular:file-server",
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "dashboard:build",
+            "port": 4201
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "dashboard:build:development"
+            },
+            "production": {
+              "buildTarget": "dashboard:build:production"
+            }
+          }
+        }
+      },
+      "tags": [],
+      "files": [
+        {
+          "file": "apps/dashboard/.browserslistrc",
+          "hash": "4f9ac26980c156a3d525267010d5f78144b43519"
+        },
+        {
+          "file": "apps/dashboard/.eslintrc.json",
+          "hash": "fe8f09d8a6fb76bef3600f1bc2610bed4f4f09cc"
+        },
+        {
+          "file": "apps/dashboard/jest.config.ts",
+          "hash": "d03ff003d417b6f98c8146821dc9e811b38c062b"
+        },
+        {
+          "file": "apps/dashboard/module-federation.config.js",
+          "hash": "a1f9282628a290731a48b68ab4620bb7dac4a7ae"
+        },
+        {
+          "file": "apps/dashboard/project.json",
+          "hash": "ffbac897bdda7429be3e57827b13e5efa1379dbc"
+        },
+        {
+          "file": "apps/dashboard/src/app/app.component.ts",
+          "hash": "3c91968dd06201bfb9ff19826c084ae14110596e",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/dashboard/src/app/app.module.ts",
+          "hash": "4e132d3c7555d19826826f6751ad8b4d4dd0c8ba",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/dashboard/src/app/remote-entry/entry.component.ts",
+          "hash": "0e92fb7b31e76b45ab68839bff1076f495cb78ce",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/dashboard/src/app/remote-entry/entry.module.ts",
+          "hash": "2792670bb3ebe7d98af9a312b6444654fc4e7005",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/dashboard/src/app/remote-entry/nx-welcome.component.ts",
+          "hash": "f8a1b962fbd944b3b2c0b073b009806570ab4095",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/dashboard/src/assets/.gitkeep",
+          "hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+        },
+        {
+          "file": "apps/dashboard/src/bootstrap.ts",
+          "hash": "d9a2e7e4a582e265db779363bd8b2492c43c141b",
+          "deps": ["npm:@angular/core", "npm:@angular/platform-browser-dynamic"]
+        },
+        {
+          "file": "apps/dashboard/src/environments/environment.prod.ts",
+          "hash": "c9669790be176ac85a5d8c11278875c2f52dc507"
+        },
+        {
+          "file": "apps/dashboard/src/environments/environment.ts",
+          "hash": "66998ae9a7c27359bc473c6d2aa0029dd1f4b700"
+        },
+        {
+          "file": "apps/dashboard/src/favicon.ico",
+          "hash": "317ebcb2336e0833a22dddf0ab287849f26fda57"
+        },
+        {
+          "file": "apps/dashboard/src/index.html",
+          "hash": "7e35329d779d18bc1e5dcb4cc4de28179f844070"
+        },
+        {
+          "file": "apps/dashboard/src/main.ts",
+          "hash": "5070220eacedd52527de9f3a46a9c427e32d0c30"
+        },
+        {
+          "file": "apps/dashboard/src/polyfills.ts",
+          "hash": "e4555ed11fa2f217b8e4c744d564da4f7388b4c4",
+          "deps": ["npm:zone.js"]
+        },
+        {
+          "file": "apps/dashboard/src/styles.scss",
+          "hash": "90d4ee0072ce3fc41812f8af910219f9eea3c3de"
+        },
+        {
+          "file": "apps/dashboard/src/test-setup.ts",
+          "hash": "1100b3e8a6ed08f4b5c27a96471846d57023c320",
+          "deps": ["npm:jest-preset-angular"]
+        },
+        {
+          "file": "apps/dashboard/tsconfig.app.json",
+          "hash": "1679e9d4779366650e8edcc9c10222969acc1349"
+        },
+        {
+          "file": "apps/dashboard/tsconfig.editor.json",
+          "hash": "20c4afdbf437457984afcb236d4b5e588aec858a"
+        },
+        {
+          "file": "apps/dashboard/tsconfig.json",
+          "hash": "c756d84676bd8d116ad9dc12a173b10c44b4955f"
+        },
+        {
+          "file": "apps/dashboard/tsconfig.spec.json",
+          "hash": "c5db02778f96a2a200d787c0a7b376fe0d6c36f7"
+        },
+        {
+          "file": "apps/dashboard/webpack.config.js",
+          "hash": "79dea22421c6d7dea9dbdc22146ef006c98d7f41",
+          "deps": ["npm:@nrwl/angular"]
+        },
+        {
+          "file": "apps/dashboard/webpack.prod.config.js",
+          "hash": "15c314d82cf501c4a3552ec71aca26ae878960de",
+          "deps": ["npm:@nrwl/angular"]
+        }
+      ]
+    },
+    "dashboard-e2e": {
+      "root": "apps/dashboard-e2e",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "sourceRoot": "apps/dashboard-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/dashboard-e2e/cypress.config.ts",
+            "devServerTarget": "dashboard:serve:development",
+            "testingType": "e2e"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "dashboard:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/dashboard-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["dashboard"],
+      "files": [
+        {
+          "file": "apps/dashboard-e2e/.eslintrc.json",
+          "hash": "696cb8b12127425419f6d2809c5f15a5963d86de"
+        },
+        {
+          "file": "apps/dashboard-e2e/cypress.config.ts",
+          "hash": "22f7c84eb637d4f23447fcb59dee130dd25b2de0",
+          "deps": ["npm:cypress", "npm:@nrwl/cypress"]
+        },
+        {
+          "file": "apps/dashboard-e2e/project.json",
+          "hash": "8bc80fc90fa50fff3ad96d5b94c8f55323e5fd33"
+        },
+        {
+          "file": "apps/dashboard-e2e/src/e2e/app.cy.ts",
+          "hash": "0fd41dd5594cb60b78af0a859def6327b2f35e04"
+        },
+        {
+          "file": "apps/dashboard-e2e/src/fixtures/example.json",
+          "hash": "294cbed6ce9e0b948b787452e8676aee486cb3be"
+        },
+        {
+          "file": "apps/dashboard-e2e/src/support/app.po.ts",
+          "hash": "32934246969c2ecb827ac05677785933a707a54d"
+        },
+        {
+          "file": "apps/dashboard-e2e/src/support/commands.ts",
+          "hash": "310f1fa0e043ffebbbcf575c5a4d17f13a6b14d6"
+        },
+        {
+          "file": "apps/dashboard-e2e/src/support/e2e.ts",
+          "hash": "3d469a6b6cf31eb66117d73e278bcf74f398f1db"
+        },
+        {
+          "file": "apps/dashboard-e2e/src/support/index.ts",
+          "hash": "b74801c41388fe82f4076612bf575c0d2b3e132e"
+        },
+        {
+          "file": "apps/dashboard-e2e/tsconfig.json",
+          "hash": "9e27f75c6fadf5f6175f48ca953d551089aef787"
+        }
+      ]
+    },
+    "micro": {
+      "root": "apps/micro",
+      "projectType": "application",
+      "sourceRoot": "apps/micro/src",
+      "prefix": "micro",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/micro",
+            "index": "apps/micro/src/index.html",
+            "main": "apps/micro/src/main.ts",
+            "polyfills": "apps/micro/src/polyfills.ts",
+            "tsConfig": "apps/micro/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/micro/src/favicon.ico", "apps/micro/src/assets"],
+            "styles": ["apps/micro/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/micro/src/environments/environment.ts",
+                  "with": "apps/micro/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production",
+          "dependsOn": ["^build"]
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "micro:build:production"
+            },
+            "development": {
+              "browserTarget": "micro:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "micro:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/micro/**/*.ts", "apps/micro/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/micro"],
+          "options": {
+            "jestConfig": "apps/micro/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": [],
+      "files": [
+        {
+          "file": "apps/micro/.browserslistrc",
+          "hash": "4f9ac26980c156a3d525267010d5f78144b43519"
+        },
+        {
+          "file": "apps/micro/.eslintrc.json",
+          "hash": "fe8f09d8a6fb76bef3600f1bc2610bed4f4f09cc"
+        },
+        {
+          "file": "apps/micro/jest.config.ts",
+          "hash": "2eeceeede2106d8a963398dd7c85bb4c6297bb2d"
+        },
+        {
+          "file": "apps/micro/project.json",
+          "hash": "0e5692570c7d32d012341d561c82f546ecfbe8a4"
+        },
+        {
+          "file": "apps/micro/src/app/app.component.html",
+          "hash": "7b131a06c8f61a342dfb44b79908e57d309b47d7"
+        },
+        {
+          "file": "apps/micro/src/app/app.component.scss",
+          "hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+        },
+        {
+          "file": "apps/micro/src/app/app.component.spec.ts",
+          "hash": "d3557cc07334380427cf990f7d4d13acfb9342d1",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/micro/src/app/app.component.ts",
+          "hash": "04f52810cc0569b67039ae0bced2c46b2485f109",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/micro/src/app/app.module.ts",
+          "hash": "ca4cff2f830a9ae53ecd2ee9e5ecff7282c211f6",
+          "deps": ["npm:@angular/core", "npm:@angular/platform-browser"]
+        },
+        {
+          "file": "apps/micro/src/app/nx-welcome.component.ts",
+          "hash": "cd323c6b049517ce03ca81c47c17202caa0663bd",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/micro/src/assets/.gitkeep",
+          "hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+        },
+        {
+          "file": "apps/micro/src/environments/environment.prod.ts",
+          "hash": "c9669790be176ac85a5d8c11278875c2f52dc507"
+        },
+        {
+          "file": "apps/micro/src/environments/environment.ts",
+          "hash": "66998ae9a7c27359bc473c6d2aa0029dd1f4b700"
+        },
+        {
+          "file": "apps/micro/src/favicon.ico",
+          "hash": "317ebcb2336e0833a22dddf0ab287849f26fda57"
+        },
+        {
+          "file": "apps/micro/src/index.html",
+          "hash": "36527a66f74170c75ee0db4d28f10953735eb3a7"
+        },
+        {
+          "file": "apps/micro/src/main.ts",
+          "hash": "d9a2e7e4a582e265db779363bd8b2492c43c141b",
+          "deps": ["npm:@angular/core", "npm:@angular/platform-browser-dynamic"]
+        },
+        {
+          "file": "apps/micro/src/polyfills.ts",
+          "hash": "e4555ed11fa2f217b8e4c744d564da4f7388b4c4",
+          "deps": ["npm:zone.js"]
+        },
+        {
+          "file": "apps/micro/src/styles.scss",
+          "hash": "90d4ee0072ce3fc41812f8af910219f9eea3c3de"
+        },
+        {
+          "file": "apps/micro/src/test-setup.ts",
+          "hash": "1100b3e8a6ed08f4b5c27a96471846d57023c320",
+          "deps": ["npm:jest-preset-angular"]
+        },
+        {
+          "file": "apps/micro/tsconfig.app.json",
+          "hash": "915ae8b2fbf62700c36dfb72cfd6252d9dae8d0a"
+        },
+        {
+          "file": "apps/micro/tsconfig.editor.json",
+          "hash": "20c4afdbf437457984afcb236d4b5e588aec858a"
+        },
+        {
+          "file": "apps/micro/tsconfig.json",
+          "hash": "c756d84676bd8d116ad9dc12a173b10c44b4955f"
+        },
+        {
+          "file": "apps/micro/tsconfig.spec.json",
+          "hash": "c5db02778f96a2a200d787c0a7b376fe0d6c36f7"
+        }
+      ]
+    },
+    "micro-e2e": {
+      "root": "apps/micro-e2e",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "sourceRoot": "apps/micro-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/micro-e2e/cypress.config.ts",
+            "devServerTarget": "micro:serve:development",
+            "testingType": "e2e"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "micro:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/micro-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["micro"],
+      "files": [
+        {
+          "file": "apps/micro-e2e/.eslintrc.json",
+          "hash": "4c5989b23b5aa8cc7aba2a07d1ae7daee19c1555"
+        },
+        {
+          "file": "apps/micro-e2e/cypress.config.ts",
+          "hash": "22f7c84eb637d4f23447fcb59dee130dd25b2de0",
+          "deps": ["npm:cypress", "npm:@nrwl/cypress"]
+        },
+        {
+          "file": "apps/micro-e2e/project.json",
+          "hash": "d4272550f36a7da03b4a238acc81387277c9bf42"
+        },
+        {
+          "file": "apps/micro-e2e/src/e2e/app.cy.ts",
+          "hash": "d0858a39c7d870bb4e6ae891ad9c3941488f7a48"
+        },
+        {
+          "file": "apps/micro-e2e/src/fixtures/example.json",
+          "hash": "294cbed6ce9e0b948b787452e8676aee486cb3be"
+        },
+        {
+          "file": "apps/micro-e2e/src/support/app.po.ts",
+          "hash": "32934246969c2ecb827ac05677785933a707a54d"
+        },
+        {
+          "file": "apps/micro-e2e/src/support/commands.ts",
+          "hash": "310f1fa0e043ffebbbcf575c5a4d17f13a6b14d6"
+        },
+        {
+          "file": "apps/micro-e2e/src/support/e2e.ts",
+          "hash": "3d469a6b6cf31eb66117d73e278bcf74f398f1db"
+        },
+        {
+          "file": "apps/micro-e2e/tsconfig.json",
+          "hash": "9e27f75c6fadf5f6175f48ca953d551089aef787"
+        }
+      ]
+    },
+    "shell": {
+      "root": "apps/shell",
+      "projectType": "application",
+      "sourceRoot": "apps/shell/src",
+      "prefix": "micro",
+      "implicitDependencies": ["dashboard", "charts", "config"],
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/shell",
+            "index": "apps/shell/src/index.html",
+            "main": "apps/shell/src/main.ts",
+            "polyfills": "apps/shell/src/polyfills.ts",
+            "tsConfig": "apps/shell/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/shell/src/favicon.ico", "apps/shell/src/assets"],
+            "styles": ["apps/shell/src/styles.scss"],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "apps/shell/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/shell/src/environments/environment.ts",
+                  "with": "apps/shell/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "apps/shell/webpack.prod.config.js"
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production",
+          "dependsOn": ["^build"]
+        },
+        "serve": {
+          "builder": "@nrwl/angular:module-federation-dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "shell:build:production"
+            },
+            "development": {
+              "browserTarget": "shell:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4200,
+            "publicHost": "http://localhost:4200"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "shell:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/shell/**/*.ts", "apps/shell/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/shell"],
+          "options": {
+            "jestConfig": "apps/shell/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "deploy shell": {
+          "builder": "nx:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "rm -rf production && mkdir production && cp -r dist/apps/shell/* production && cp -r dist/apps/{dashboard,charts,config} production && http-server -p 3000 -a localhost production"
+          }
+        },
+        "deploy": {
+          "builder": "nx:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "rm -rf production && mkdir production && cp -r dist/apps/shell/* production && cp -r dist/apps/{dashboard,charts,config} production && http-server -p 3000 -a localhost production"
+          }
+        }
+      },
+      "tags": [],
+      "files": [
+        {
+          "file": "apps/shell/.browserslistrc",
+          "hash": "4f9ac26980c156a3d525267010d5f78144b43519"
+        },
+        {
+          "file": "apps/shell/.eslintrc.json",
+          "hash": "fe8f09d8a6fb76bef3600f1bc2610bed4f4f09cc"
+        },
+        {
+          "file": "apps/shell/jest.config.ts",
+          "hash": "770d5a198b2a20105d5dea5408f5bae3dc9a13f1"
+        },
+        {
+          "file": "apps/shell/module-federation.config.js",
+          "hash": "453d45ab79df0693f8d9a96914ca97f7a42b6170"
+        },
+        {
+          "file": "apps/shell/project.json",
+          "hash": "c38cc7eb90f3b50fd9bd5d71a23b4e4e83165b6b"
+        },
+        {
+          "file": "apps/shell/src/app/app.component.html",
+          "hash": "56291672a85131d6cece42c0eb7b9683ee6efce2"
+        },
+        {
+          "file": "apps/shell/src/app/app.component.scss",
+          "hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+        },
+        {
+          "file": "apps/shell/src/app/app.component.spec.ts",
+          "hash": "1e9fcc991fcf80f0343735f440d38feaa9bc5509",
+          "deps": ["npm:@angular/core", "npm:@angular/router"]
+        },
+        {
+          "file": "apps/shell/src/app/app.component.ts",
+          "hash": "18e181de6d38d7783469e992acb12914a339b7af",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/shell/src/app/app.module.ts",
+          "hash": "f4ce761a6afa1989f7a5a78339350e1d771f961a",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/shell/src/app/nx-welcome.component.ts",
+          "hash": "6b3eec59a79bcee0bce03cf6d6ef18375866a3c6",
+          "deps": ["npm:@angular/core"]
+        },
+        {
+          "file": "apps/shell/src/assets/.gitkeep",
+          "hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+        },
+        {
+          "file": "apps/shell/src/bootstrap.ts",
+          "hash": "d9a2e7e4a582e265db779363bd8b2492c43c141b",
+          "deps": ["npm:@angular/core", "npm:@angular/platform-browser-dynamic"]
+        },
+        {
+          "file": "apps/shell/src/environments/environment.prod.ts",
+          "hash": "c9669790be176ac85a5d8c11278875c2f52dc507"
+        },
+        {
+          "file": "apps/shell/src/environments/environment.ts",
+          "hash": "66998ae9a7c27359bc473c6d2aa0029dd1f4b700"
+        },
+        {
+          "file": "apps/shell/src/favicon.ico",
+          "hash": "317ebcb2336e0833a22dddf0ab287849f26fda57"
+        },
+        {
+          "file": "apps/shell/src/index.html",
+          "hash": "f5584022fb70540fefebbdcf95df24320ccfddbd"
+        },
+        {
+          "file": "apps/shell/src/main.ts",
+          "hash": "5070220eacedd52527de9f3a46a9c427e32d0c30"
+        },
+        {
+          "file": "apps/shell/src/polyfills.ts",
+          "hash": "e4555ed11fa2f217b8e4c744d564da4f7388b4c4",
+          "deps": ["npm:zone.js"]
+        },
+        {
+          "file": "apps/shell/src/remotes.d.ts",
+          "hash": "2f0b26075813d12076c27ccde323ad4abde70d7a"
+        },
+        {
+          "file": "apps/shell/src/styles.scss",
+          "hash": "90d4ee0072ce3fc41812f8af910219f9eea3c3de"
+        },
+        {
+          "file": "apps/shell/src/test-setup.ts",
+          "hash": "1100b3e8a6ed08f4b5c27a96471846d57023c320",
+          "deps": ["npm:jest-preset-angular"]
+        },
+        {
+          "file": "apps/shell/tsconfig.app.json",
+          "hash": "1679e9d4779366650e8edcc9c10222969acc1349"
+        },
+        {
+          "file": "apps/shell/tsconfig.editor.json",
+          "hash": "20c4afdbf437457984afcb236d4b5e588aec858a"
+        },
+        {
+          "file": "apps/shell/tsconfig.json",
+          "hash": "c756d84676bd8d116ad9dc12a173b10c44b4955f"
+        },
+        {
+          "file": "apps/shell/tsconfig.spec.json",
+          "hash": "c5db02778f96a2a200d787c0a7b376fe0d6c36f7"
+        },
+        {
+          "file": "apps/shell/webpack.config.js",
+          "hash": "79dea22421c6d7dea9dbdc22146ef006c98d7f41",
+          "deps": ["npm:@nrwl/angular"]
+        },
+        {
+          "file": "apps/shell/webpack.prod.config.js",
+          "hash": "cade49dc155b1cfc04b14c138ae041daeea49ba8",
+          "deps": ["npm:@nrwl/angular"]
+        }
+      ]
+    },
+    "shell-e2e": {
+      "root": "apps/shell-e2e",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "sourceRoot": "apps/shell-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/shell-e2e/cypress.config.ts",
+            "devServerTarget": "shell:serve:development",
+            "testingType": "e2e"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "shell:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/shell-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["shell"],
+      "files": [
+        {
+          "file": "apps/shell-e2e/.eslintrc.json",
+          "hash": "696cb8b12127425419f6d2809c5f15a5963d86de"
+        },
+        {
+          "file": "apps/shell-e2e/cypress.config.ts",
+          "hash": "22f7c84eb637d4f23447fcb59dee130dd25b2de0",
+          "deps": ["npm:cypress", "npm:@nrwl/cypress"]
+        },
+        {
+          "file": "apps/shell-e2e/project.json",
+          "hash": "68659c3369797a91e1d1bc5ae9618116b6ed43bc"
+        },
+        {
+          "file": "apps/shell-e2e/src/e2e/app.cy.ts",
+          "hash": "89e7eae972018ed7cec46ff70e01c31351d400f0"
+        },
+        {
+          "file": "apps/shell-e2e/src/fixtures/example.json",
+          "hash": "294cbed6ce9e0b948b787452e8676aee486cb3be"
+        },
+        {
+          "file": "apps/shell-e2e/src/support/app.po.ts",
+          "hash": "32934246969c2ecb827ac05677785933a707a54d"
+        },
+        {
+          "file": "apps/shell-e2e/src/support/commands.ts",
+          "hash": "310f1fa0e043ffebbbcf575c5a4d17f13a6b14d6"
+        },
+        {
+          "file": "apps/shell-e2e/src/support/e2e.ts",
+          "hash": "3d469a6b6cf31eb66117d73e278bcf74f398f1db"
+        },
+        {
+          "file": "apps/shell-e2e/src/support/index.ts",
+          "hash": "b74801c41388fe82f4076612bf575c0d2b3e132e"
+        },
+        {
+          "file": "apps/shell-e2e/tsconfig.json",
+          "hash": "9e27f75c6fadf5f6175f48ca953d551089aef787"
+        }
+      ]
+    }
+  },
+  "version": 1
 }
